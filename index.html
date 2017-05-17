@@ -60,15 +60,11 @@
 
     function changeTableToImg(callback) {
         var table = $('table');
-        table.css({
-            'background': '#fff'
-        });
+        var index = 0;
         var len = $('table').length;
-
-        var scaleBy = 1; //缩放比例
-
+        //var scaleBy = 1; //缩放比例
         if (len > 0) {
-            table.each(function(index) {
+            table.each(function() {
                 var This = this;
                 var height = $(this).height();
                 var width = $(this).width();
@@ -82,12 +78,14 @@
                 html2canvas(This, {
                     //canvas: canvas,
                     onrendered: function(canvas) {
+                        index++;
                         var image = new Image();
                         image.src = canvas.toDataURL();
                         $(This).after('<img src = "' + image.src + '">');
                         //$(This).after('<img width="' + width + '" src = "' + image.src + '">');
                         $(This).remove();
                         if (index == len - 1) {
+                            console.log(index)
                             setTimeout(function() {
                                 var html = $('#content').html();
                                 callback(html);
@@ -107,8 +105,6 @@
         margin: 10px auto;
     }
     
-    #upload {}
-    
     #content {
         margin: 20px auto;
         padding: 20px;
@@ -119,6 +115,7 @@
     table {
         width: 936px;
         margin: 0!important;
+        background: #fff;
     }
     
     #fileName {
@@ -150,7 +147,8 @@
         text-align: left;
         color: #666;
     }
-    h1{
+    
+    h1 {
         text-align: center;
     }
     </style>
