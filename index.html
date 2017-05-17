@@ -4,16 +4,14 @@
 <head>
     <title>转化成图片</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/stylesheet.css" rel="stylesheet" />
     <link href="css/page_styles.css" rel="stylesheet" />
     <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
     <script src="js/html2canvas.min.js"></script>
     <script>
     $(function() {
-        $('#upload').change(function () {
-            upload($(this)[0], function (data){
+        $('#upload').change(function() {
+            upload($(this)[0], function(data) {
                 $('#content').html(data);
                 changeTableToImg(function(content) {
                     var fileName = $('#fileName');
@@ -39,25 +37,25 @@
                 callback(this.result);
             }
             reader.readAsText(file);
-        } 
+        }
         //支持IE 7 8 9 10
-        else if (typeof window.ActiveXObject != 'undefined'){
-            var xmlDoc; 
-            xmlDoc = new ActiveXObject("Microsoft.XMLDOM"); 
-            xmlDoc.async = false; 
-            xmlDoc.load(input.value); 
-             callback(xmlDoc.xml); 
-        } 
+        else if (typeof window.ActiveXObject != 'undefined') {
+            var xmlDoc;
+            xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+            xmlDoc.async = false;
+            xmlDoc.load(input.value);
+            callback(xmlDoc.xml);
+        }
         //支持FF
-        else if (document.implementation && document.implementation.createDocument) { 
-            var xmlDoc; 
-            xmlDoc = document.implementation.createDocument("", "", null); 
-            xmlDoc.async = false; 
-            xmlDoc.load(input.value); 
-             callback(xmlDoc.xml);
-        } else { 
-            alert('error'); 
-        } 
+        else if (document.implementation && document.implementation.createDocument) {
+            var xmlDoc;
+            xmlDoc = document.implementation.createDocument("", "", null);
+            xmlDoc.async = false;
+            xmlDoc.load(input.value);
+            callback(xmlDoc.xml);
+        } else {
+            alert('error');
+        }
     }
 
     function changeTableToImg(callback) {
@@ -85,8 +83,9 @@
                     //canvas: canvas,
                     onrendered: function(canvas) {
                         var image = new Image();
-                        image.src = canvas.toDataURL("image/png");
-                        $(This).after('<img width="' + width + '" height="' + height + '" src = "' + image.src + '">');
+                        image.src = canvas.toDataURL();
+                        $(This).after('<img src = "' + image.src + '">');
+                        //$(This).after('<img width="' + width + '" src = "' + image.src + '">');
                         $(This).remove();
                         if (index == len - 1) {
                             setTimeout(function() {
@@ -102,26 +101,57 @@
         }
     }
     </script>
+    <style type="text/css">
+    .mybody{
+        width: 980px;
+        margin: 10px auto;
+    }
+    #upload {}
+    #content {
+        margin: 20px auto;
+        padding: 20px;
+        min-height: 50px;
+        border:1px solid #e7e7e7; 
+    }
+    table{
+        width: 936px;
+        margin: 0!important;
+    }
+    #fileName {
+        border:1px solid #ddd;
+    }
+    
+    #saveBtn {
+        margin: 20px auto;
+        display: block;
+        line-height: 1;
+        font-size: 14px;
+        width: 60px;
+        padding: 6px 0;
+        border: 1px solid #03a9f4;
+        border-radius: 3px;
+        background-color: #03a9f4;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        color: #fff;
+    }
+    #saveBtn:active{
+        background-color: #ccc;
+    }
+    </style>
 </head>
 
-<body>
-    <input class="form-control" type="file" id="upload" />
-
-
+<body class="mybody">
+    <input type="file" id="upload" />
     <div id="content"></div>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-3">
-                <!-- <div class="form-group">
-                    <label>文件内容</label>
-                    <textarea class="form-control" rows="4"></textarea>
-                </div> -->
-                <div class="form-group">
-                    <label>文件名</label>
-                    <input type="text" class="form-control" value="" id="fileName" />
-                </div>
-                <a id="saveBtn" class="btn btn-default" download="" role="button">保存</a>
-            </div>
+        <div class="form-group">
+            <label>文件名</label>
+            <input type="text" value="" id="fileName" />
+        </div>
+        <div class="btn-group">
+            <a id="saveBtn" download="" role="button">保存</a>
         </div>
     </div>
 </body>
