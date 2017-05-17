@@ -102,23 +102,27 @@
     }
     </script>
     <style type="text/css">
-    .mybody{
+    .mybody {
         width: 980px;
         margin: 10px auto;
     }
+    
     #upload {}
+    
     #content {
         margin: 20px auto;
         padding: 20px;
         min-height: 50px;
-        border:1px solid #e7e7e7; 
+        border: 1px solid #e7e7e7;
     }
-    table{
+    
+    table {
         width: 936px;
         margin: 0!important;
     }
+    
     #fileName {
-        border:1px solid #ddd;
+        border: 1px solid #ddd;
     }
     
     #saveBtn {
@@ -136,13 +140,26 @@
         text-decoration: none;
         color: #fff;
     }
-    #saveBtn:active{
+    
+    #saveBtn:active {
         background-color: #ccc;
+    }
+    
+    .mytext {
+        margin: 50px;
+        text-align: left;
+        color: #666;
     }
     </style>
 </head>
 
 <body class="mybody">
+    <div class="mytext">操作指南：
+        <ul>
+            <li>（1）点击“选择文件”按钮，找一个包括table标签、待转换的HTML文件。( 如<a href="https://weianzi.github.io/reader/mycontent.html">mycontent.html</a>右键下载备用 )；</li>
+            <li>（2）点击“保存”即可生成转换后的文件</li>
+        </ul>
+    </div>
     <input type="file" id="upload" />
     <div id="content"></div>
     <div class="container-fluid">
