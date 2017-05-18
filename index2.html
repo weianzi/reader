@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>批量：HTML表格table转化成图片</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="css/stylesheet.css" rel="stylesheet" />
+    <link href="css/page_styles.css" rel="stylesheet" />
+    <style type="text/css">
+    .mybody {
+        width: 980px;
+        margin: 10px auto;
+    }
+    
+    #content {
+        margin: 20px auto;
+        padding: 20px;
+        min-height: 200px;
+        border: 1px solid #e7e7e7;
+    }
+    .show-all-content{
+        text-align: center;
+        line-height: 200px;
+        font-size: 20px;
+        color: #999;
+    }
+    .content-item{
+        padding: 20px 0;
+        border-bottom: 4px solid #03a9f4;
+    }
+    table {
+        width: 936px;
+        margin: 0!important;
+        background: #fff;
+    }
+    
+    #fileName {
+        border: 1px solid #ddd;
+    }
+    
+    #btnSave {
+        display: none;
+        margin: 20px auto;
+        line-height: 1;
+        font-size: 14px;
+        width: 80px;
+        padding: 8px 0;
+        border: 1px solid #03a9f4;
+        border-radius: 3px;
+        background-color: #03a9f4;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        color: #fff;
+    }
+    
+    #btnSave:active {
+        opacity: .8;
+    }
+    
+    .mytext {
+        margin: 50px;
+        text-align: left;
+        color: #666;
+    }
+    
+    h1 {
+        text-align: center;
+    }
+    </style>
+</head>
+
+<body class="mybody">
+    <h1>JS实现将TABLE表格转化成IMG图片</h1>
+    <div class="mytext">操作指南：
+        <ul>
+            <li>（1）点击“选择文件”按钮，找一个包括table标签、待转换的HTML文件。( 如<a href="https://weianzi.github.io/reader/mycontent.html" target="blank">mycontent.html</a>右键下载备用 )；</li>
+            <li>（2）点击“保存”即可生成转换后的文件</li>
+            <li>（3）请使用新版本标准浏览器，chrome 58测试正常</li>
+        </ul>
+    </div>
+    <input type="file" id="upload" multiple/>
+    <div id="btnGroup"><ul></ul></div>
+    <a id="btnSave" href="javascript:;">下载所有</a>
+    <div id="content"><div class="show-all-content">预览效果</div></div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/html2canvas.min.js"></script>
+    <script>
+    $(function() {
+        $('#upload').change(function() {
+            $('#btnGroup >ul').html('');
+            upload($(this)[0], function(data) {
+                var html = '';
+                $.each(data, function(index, item){
+                    $.each(item, function(key, value){
+                        html += '<div class="content-item" data-name="' + key + '">' + value + '</div>';
+                    });
+                });
+                $('#content').html(html);
+
+                //转换内容区内所有table成img，callback返回转换后的所有html代码
+                changeTableToImg(function() {
+                    var $con = $('#content');
+                    var $conItem = $con.find('.content-item');
+                    var $btnGroup = $('#btnGroup >ul');
+                    var btnHtml = '';
+                    $conItem.each(function(ev){
+                        var name = $(this).attr('data-name');
+                        var href = 'data:text/paint; utf-8,' + $(this).html();
+                        btnHtml += '<li>' + name + '<a class="btn-item" href=\'' + href + '\' download="' + name + '">下载</a></li>';
+                    });
+                    $btnGroup.html(btnHtml);
+                    //$('#btnSave').css('display', 'block');
+                });
+            });
+        });
+
+
+        $('#btnSave').click(function(){
+            var $btnItem = $('#btnGroup ul li');
+            console.log($btnItem.eq(1));
+            $btnItem.click(function(){
+                console.log(1111);
+            });
+        });
+
+    });
+
+    function upload(input, callback) {
+        //支持chrome、firfox
+        if (window.FileReader) {            
+            var htmlArray = []; //存放上传文件的html
+            var i = 0;
+            $.each(input.files, function(index, item){
+                var reader = new FileReader();
+                reader.onload = function() {
+                    i++;
+                    var obj = {};
+                    obj[item.name] = this.result;
+                    htmlArray.push(obj);
+                    if(i == input.files.length){
+                        callback(htmlArray);
+                    }                    
+                }
+                reader.readAsText(item);
+            });
+        } else {
+            alert('请使用新版本的chrome或firfox浏览本页面!');
+        }
+    }
+
+    //转换内容区内所有table成img
+    function changeTableToImg(callback) {
+        var $con = $('#content');
+        var table = $('#content table');
+        var index = 0;
+        var len = table.length;
+        if (len > 0) {
+            table.each(function() {
+                var This = this;
+                var height = $(this).height();
+                var width = $(this).width();
+                html2canvas(This, {
+                    onrendered: function(canvas) {
+                        index++;
+                        var image = new Image();
+                        image.src = canvas.toDataURL();
+                        $(This).after('<img src = "' + image.src + '">');
+                        $(This).remove();
+                        if (index == len - 1) {
+                            setTimeout(function() {
+                                callback();
+                            }, 600);
+                        }
+                    },
+                    width: width + 5,
+                    height: height + 5
+                });
+            });
+        }
+    }
+    </script>
+</body>
+
+</html>
