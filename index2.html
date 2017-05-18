@@ -106,7 +106,9 @@
                     var btnHtml = '';
                     $conItem.each(function(ev){
                         var name = $(this).attr('data-name');
-                        var href = 'data:text/paint; utf-8,' + $(this).html();
+                        var html = $(this).html();
+                        html = html.replace("<!--?xml version='1.0' encoding='utf-8'?-->", '');
+                        var href = 'data:text/paint; utf-8,' + html;
                         btnHtml += '<li>' + name + '<a class="btn-item" href=\'' + href + '\' download="' + name + '">下载</a></li>';
                     });
                     $btnGroup.html(btnHtml);
@@ -167,7 +169,7 @@
                         image.src = canvas.toDataURL();
                         $(This).after('<img src = "' + image.src + '">');
                         $(This).remove();
-                        if (index == len - 1) {
+                        if (index == len) {
                             setTimeout(function() {
                                 callback();
                             }, 600);
