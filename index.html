@@ -16,7 +16,8 @@
                 changeTableToImg(function(content) {
                     var fileName = $('#fileName');
                     var saveBtn = $('#saveBtn');
-                    saveBtn.attr('href', 'data:text/paint; utf-8,' + content);
+                    var html = content.replace("<!--?xml version='1.0' encoding='utf-8'?-->", '');
+                    saveBtn.attr('href', 'data:text/paint; utf-8,' + html);
                     fileName.on('change', function() {
                         saveBtn.attr('download', fileName.val());
                     });
@@ -26,35 +27,37 @@
     });
 
     function upload(input, callback) {
-        //支持chrome IE10
+        //支持chrome
         if (window.FileReader) {
             var file = input.files[0];
             $('#fileName').val(file.name);
             $('#saveBtn').attr('download', file.name);
             var reader = new FileReader();
             reader.onload = function() {
-                //console.log(this.result)
                 callback(this.result);
             }
             reader.readAsText(file);
         }
         //支持IE 7 8 9 10
-        else if (typeof window.ActiveXObject != 'undefined') {
+        /*else if (typeof window.ActiveXObject != 'undefined') {
             var xmlDoc;
             xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
             xmlDoc.async = false;
+            console.log(input.value)
             xmlDoc.load(input.value);
             callback(xmlDoc.xml);
-        }
+        }*/
         //支持FF
-        else if (document.implementation && document.implementation.createDocument) {
+        /*else if (document.implementation && document.implementation.createDocument) {
             var xmlDoc;
             xmlDoc = document.implementation.createDocument("", "", null);
             xmlDoc.async = false;
+            console.log(input.value)
             xmlDoc.load(input.value);
             callback(xmlDoc.xml);
-        } else {
-            alert('error');
+        }*/
+        else {
+            alert('请使用新版本的chrome或firfox浏览本页面');
         }
     }
 
@@ -84,7 +87,7 @@
                         $(This).after('<img src = "' + image.src + '">');
                         //$(This).after('<img width="' + width + '" src = "' + image.src + '">');
                         $(This).remove();
-                        if (index == len - 1) {
+                        if (index == len) {
                             console.log(index)
                             setTimeout(function() {
                                 var html = $('#content').html();
@@ -111,7 +114,12 @@
         min-height: 50px;
         border: 1px solid #e7e7e7;
     }
-    
+    .show-all-content{
+        text-align: center;
+        line-height: 200px;
+        font-size: 20px;
+        color: #999;
+    }
     table {
         width: 936px;
         margin: 0!important;
@@ -148,14 +156,17 @@
         color: #666;
     }
     
-    h1 {
+    h1.my-title {
         text-align: center;
+    }
+    .container-fluid{
+        margin-top: 20px;
     }
     </style>
 </head>
 
 <body class="mybody">
-    <h1>JS实现将TABLE表格转化成IMG图片</h1>
+    <h1 class="my-title">JS实现将TABLE表格转化成IMG图片</h1>
     <div class="mytext">操作指南：
         <ul>
             <li>（1）点击“选择文件”按钮，找一个包括table标签、待转换的HTML文件。( 如<a href="https://weianzi.github.io/reader/mycontent.html" target="blank">mycontent.html</a>右键下载备用 )；</li>
@@ -164,7 +175,7 @@
         </ul>
     </div>
     <input type="file" id="upload" />
-    <div id="content"></div>
+
     <div class="container-fluid">
         <div class="form-group">
             <label>文件名</label>
@@ -174,6 +185,7 @@
             <a id="saveBtn" download="" role="button">保存</a>
         </div>
     </div>
+    <div id="content"><div class="show-all-content">预览效果</div></div>
 </body>
 
 </html>
