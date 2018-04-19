@@ -10,7 +10,7 @@
       <script src="js/libs/html5shiv.min.js"></script>
       <script src="js/libs/respond.min.js"></script>
     <![endif]-->
-<link href="css/40c692ae.vendors.css" rel="stylesheet"><link href="css/fb82cd9f.evaluate.css" rel="stylesheet"></head>
+<link href="css/1dc5939c.vendors.css" rel="stylesheet"><link href="css/86757d39.evaluate.css" rel="stylesheet"></head>
 
 <body>
   <header class="site-header clearfix"></header>
@@ -22,28 +22,31 @@
         <div class="ball-pitch-bg"></div>
         <div class="halfway-line"></div>
         <div class="center-circle"></div>
-        <div class="penalty-area-left">
-        </div>
-        <div class="penalty-area-right">
-        </div>
+        <div class="penalty-area-left"></div>
+        <div class="penalty-area-right"></div>
         <div class="penalty-arc-left"></div>
         <div class="penalty-arc-right"></div>
         <div class="goal-area-left">
           <div class="before"></div>
           <div class="after"></div>
+          <div class="patch"></div>
         </div>
         <div class="goal-area-right">
           <div class="before"></div>
           <div class="after"></div>
+          <div class="patch"></div>
         </div>
       </div>
+      <div id="exportTable">
+      </div>
     </div>
+    <div id="exportImg"></div>
     <div class="filter-fixed">
       <div class="filter">
         <div class="clearfix">
           <div class="fl area-input">
             <input id="area" type="text" value="100" />平方米
-            <a href="javascript:;">报价</a>
+            <a id="areaBtn" href="javascript:;">报价</a>
           </div>
           <p class="fl price-text">
             根据当前选择预计：
@@ -95,23 +98,22 @@
             <option selected value="0">厚度：4mm</option>
             <option value="1">厚度：5mm</option>
           </select>
-          <button id="export">导出</button>
+          <button id="exportBtn">导出</button>
         </div>
       </div>
     </div>
-    <div class="modal-backdrop mark-news none"></div>
+  </div>
+  <!-- <div class="modal-backdrop mark-news none"></div>
     <div class="modal fade news-detail-pop">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <a href="javascript:;" class="close">&times;</a>
-          <div id="exportImg"></div>
-          <div id="exportTable"></div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <a href="javascript:;" class="close">&times;</a>
+            </div>
         </div>
-      </div>
-    </div>
-    <script src="js/libs/jquery.min-1.9.1.js"></script>
-    <script src="js/libs/html2canvas.min.js"></script>
-    <script src="js/libs/canvas2image.js"></script>
-<script type="text/javascript" src="js/8fb0be1d.vendors.js"></script><script type="text/javascript" src="js/8fb0be1d.evaluate.js"></script></body>
+    </div> -->
+  <script src="js/libs/jquery.min-1.9.1.js"></script>
+  <script src="js/libs/html2canvas.min.js"></script>
+  <script src="https://superal.github.io/canvas2image/canvas2image.js"></script>
+<script type="text/javascript" src="js/d14e97d8.vendors.js"></script><script type="text/javascript" src="js/d14e97d8.evaluate.js"></script></body>
 
 </html>
